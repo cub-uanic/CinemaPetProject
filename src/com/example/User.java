@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    String userName;
-    List<Ticket> userTickets;
+    private String userName;
+    private List<Ticket> userTickets;
 
     public User(String userName) {
         this.userName = userName;

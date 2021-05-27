@@ -5,12 +5,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CinemaSession {
+// rename
+public class Seans {
     private Movie movie;
     private LocalTime time;
     private List<Seat> seats;
 
-    public CinemaSession(Movie movie, LocalTime time) {
+    public Seans(Movie movie, LocalTime time) {
         this.movie = movie;
         this.time = time;
         this.seats = new ArrayList<>();

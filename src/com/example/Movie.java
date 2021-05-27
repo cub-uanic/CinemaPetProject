@@ -1,6 +1,7 @@
 package com.example;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Movie {
     private String movieName;
@@ -30,5 +31,18 @@ public class Movie {
         return movieName +
                 "\nmovieReleaseTime: " + movieReleaseTime +
                 "\nmovieDescription: " + movieDescription;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return movieName.equals(movie.movieName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(movieName);
     }
 }

@@ -1,16 +1,16 @@
 package com.example;
 
 public class Ticket {
-    private CinemaSession cinemaSession;
+    private Seans seans;
     private Seat seat;
 
-    public Ticket(CinemaSession cinemaSession, Seat seat) {
-        this.cinemaSession = cinemaSession;
+    public Ticket(Seans seans, Seat seat) {
+        this.seans = seans;
         this.seat = seat;
     }
 
-    public CinemaSession getCinemaSession() {
-        return cinemaSession;
+    public Seans getCinemaSession() {
+        return seans;
     }
 
     public Seat getSeat() {
