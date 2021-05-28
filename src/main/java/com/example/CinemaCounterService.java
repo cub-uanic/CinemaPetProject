@@ -5,25 +5,25 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class CinemaCounterService {
-    public User greetUser() {
+    public com.example.User greetUser() {
         System.out.println("Welcome to the command line Cinema" +
                 "\nEnter your name: ");
         Scanner scanner = new Scanner(System.in);
         String userName = scanner.nextLine();
-        User user = new User(userName);
+        com.example.User user = new com.example.User(userName);
         System.out.println(user.getUserName() +
                 " we happy to see you in Command line cinema.");
         return user;
     }
 
-    public Movie chooseMovie(List<Movie> movies) {
+    public com.example.Movie chooseMovie(List<com.example.Movie> movies) {
         showMovies(movies);
         System.out.println("Please enter name of the movie that you would like to watch:");
         Scanner scanner = new Scanner(System.in);
         String movieName = scanner.nextLine();
-        Movie movie = null;
+        com.example.Movie movie = null;
 
-        for(Movie m: movies) {
+        for(com.example.Movie m: movies) {
             if(m.getMovieName().equals(movieName)) {
                 movie = m;
             }
@@ -37,7 +37,7 @@ public class CinemaCounterService {
         return movie;
     }
 
-    public Seans chooseSeans(Movie movie, List<Seans> seansList) {
+    public com.example.Seans chooseSeans(com.example.Movie movie, List<com.example.Seans> seansList) {
         System.out.println("Movie " + movie.getMovieName() +
                 " is available today at: ");
 
@@ -47,7 +47,7 @@ public class CinemaCounterService {
         // cinemaSessionList is need to be filtered:
         // cinemaSessions only with available seats should be displayed
 
-        List<Seans> filteredSeansList = seansList.
+        List<com.example.Seans> filteredSeansList = seansList.
                 stream().
                 filter(seans -> seans.getMovie().getMovieName().equals(movie.getMovieName())).
                 collect(Collectors.toList());
@@ -55,7 +55,7 @@ public class CinemaCounterService {
 
         // use method filter from Collection
         int i = 1;
-        for(Seans seans: filteredSeansList) {
+        for(com.example.Seans seans: filteredSeansList) {
             System.out.print("#" + i + " " + seans.getTime() + "  ");
             i++;
         }
@@ -67,7 +67,7 @@ public class CinemaCounterService {
         return filteredSeansList.get(movieShowNumber);
     }
 
-    public Seat chooseSeat(Seans chosenSeans) {
+    public com.example.Seat chooseSeat(com.example.Seans chosenSeans) {
         System.out.println("Please choose available seats: ");
         showAvailableSeats(chosenSeans);
 
@@ -77,10 +77,10 @@ public class CinemaCounterService {
         return chosenSeans.getSeats().get(seatNumber - 1);
     }
 
-    public Ticket createTicket(Seans chosenSeans, Seat chosenSeat) {
+    public com.example.Ticket createTicket(com.example.Seans chosenSeans, com.example.Seat chosenSeat) {
         chosenSeat.setFree(false);
 
-        return new Ticket(chosenSeans, chosenSeat);
+        return new com.example.Ticket(chosenSeans, chosenSeat);
     }
 
 
@@ -89,10 +89,10 @@ public class CinemaCounterService {
 
 
 
-    private static void showMovies(List<Movie> movieList) {
+    private static void showMovies(List<com.example.Movie> movieList) {
         System.out.println("You can watch next movies:\n");
 
-        for(Movie movie: movieList) {
+        for(com.example.Movie movie: movieList) {
             System.out.println(movie);
             System.out.println("---------------------------------------------------------------------------");
             System.out.println("---------------------------------------------------------------------------");
@@ -102,8 +102,8 @@ public class CinemaCounterService {
 
     }
 
-    private void showAvailableSeats(Seans chosenSeans) {
-        for(Seat seat: chosenSeans.getSeats()) {
+    private void showAvailableSeats(com.example.Seans chosenSeans) {
+        for(com.example.Seat seat: chosenSeans.getSeats()) {
             if(seat.isFree()) {
                 System.out.print(seat.getSeatNumber() + " ");
             }
