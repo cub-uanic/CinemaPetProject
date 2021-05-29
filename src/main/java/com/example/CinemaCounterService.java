@@ -5,39 +5,51 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class CinemaCounterService {
-    public com.example.User greetUser() {
+    public String greetUser() {
         System.out.println("Welcome to the command line Cinema" +
                 "\nEnter your name: ");
         Scanner scanner = new Scanner(System.in);
-        String userName = scanner.nextLine();
-        com.example.User user = new com.example.User(userName);
+        return scanner.nextLine();
+    }
+    
+    public User createUser(String userName) {
+        this.validateUserName(userName);
+        // Когд я проверяю значение имение пользователя: можно ли это сделать в каком-то другом классе,
+        // как я это сделал здесь?
+        // или нужно проводить валидацию в самом классе User?
+        User user = new User(userName);
         System.out.println(user.getUserName() +
                 " we happy to see you in Command line cinema.");
         return user;
     }
 
-    public com.example.Movie chooseMovie(List<com.example.Movie> movies) {
+    public String askUserWhichMovieHeWantsToWatch(List<Movie> movies) {
         showMovies(movies);
         System.out.println("Please enter name of the movie that you would like to watch:");
         Scanner scanner = new Scanner(System.in);
         String movieName = scanner.nextLine();
-        com.example.Movie movie = null;
 
-        for(com.example.Movie m: movies) {
+        if(movieName == null) {
+            System.out.println("Entered movie name wasn't found in the list.");
+            askUserWhichMovieHeWantsToWatch(movies);
+        }
+
+        return movieName;
+    }
+
+    public Movie chooseMovie(List<Movie> movies, String movieName) {
+        Movie movie = null;
+
+        for(Movie m: movies) {
             if(m.getMovieName().equals(movieName)) {
                 movie = m;
             }
         }
 
-        if(movie == null) {
-            System.out.println("Entered movie name wasn't found in the list.");
-            chooseMovie(movies);
-        }
-
         return movie;
     }
 
-    public com.example.Seans chooseSeans(com.example.Movie movie, List<com.example.Seans> seansList) {
+    public Seans chooseSeans(Movie movie, List<Seans> seansList) {
         System.out.println("Movie " + movie.getMovieName() +
                 " is available today at: ");
 
@@ -47,7 +59,7 @@ public class CinemaCounterService {
         // cinemaSessionList is need to be filtered:
         // cinemaSessions only with available seats should be displayed
 
-        List<com.example.Seans> filteredSeansList = seansList.
+        List<Seans> filteredSeansList = seansList.
                 stream().
                 filter(seans -> seans.getMovie().getMovieName().equals(movie.getMovieName())).
                 collect(Collectors.toList());
@@ -55,7 +67,7 @@ public class CinemaCounterService {
 
         // use method filter from Collection
         int i = 1;
-        for(com.example.Seans seans: filteredSeansList) {
+        for(Seans seans: filteredSeansList) {
             System.out.print("#" + i + " " + seans.getTime() + "  ");
             i++;
         }
@@ -67,7 +79,7 @@ public class CinemaCounterService {
         return filteredSeansList.get(movieShowNumber);
     }
 
-    public com.example.Seat chooseSeat(com.example.Seans chosenSeans) {
+    public Seat chooseSeat(Seans chosenSeans) {
         System.out.println("Please choose available seats: ");
         showAvailableSeats(chosenSeans);
 
@@ -77,10 +89,10 @@ public class CinemaCounterService {
         return chosenSeans.getSeats().get(seatNumber - 1);
     }
 
-    public com.example.Ticket createTicket(com.example.Seans chosenSeans, com.example.Seat chosenSeat) {
+    public Ticket createTicket(Seans chosenSeans, Seat chosenSeat) {
         chosenSeat.setFree(false);
 
-        return new com.example.Ticket(chosenSeans, chosenSeat);
+        return new Ticket(chosenSeans, chosenSeat);
     }
 
 
@@ -89,10 +101,10 @@ public class CinemaCounterService {
 
 
 
-    private static void showMovies(List<com.example.Movie> movieList) {
+    private static void showMovies(List<Movie> movieList) {
         System.out.println("You can watch next movies:\n");
 
-        for(com.example.Movie movie: movieList) {
+        for(Movie movie: movieList) {
             System.out.println(movie);
             System.out.println("---------------------------------------------------------------------------");
             System.out.println("---------------------------------------------------------------------------");
@@ -102,11 +114,18 @@ public class CinemaCounterService {
 
     }
 
-    private void showAvailableSeats(com.example.Seans chosenSeans) {
-        for(com.example.Seat seat: chosenSeans.getSeats()) {
+    private void showAvailableSeats(Seans chosenSeans) {
+        for(Seat seat: chosenSeans.getSeats()) {
             if(seat.isFree()) {
                 System.out.print(seat.getSeatNumber() + " ");
             }
         }
+    }
+
+    //Правильно ли выбрасивать exception если имя пользователя null?
+    //И если да, достаточно ли RunTimeException?
+    private void validateUserName(String userName) {
+        if(userName == null)
+            throw new RuntimeException("User Name Cannot be null");
     }
 }
