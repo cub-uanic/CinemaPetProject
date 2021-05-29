@@ -16,7 +16,11 @@ public class Seans {
         this.time = time;
         this.seats = new ArrayList<>();
         for(int i=1; i<=20; i++) {
-            seats.add(new Seat(i));
+            try{
+                seats.add(new Seat(i));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
     }
 
@@ -34,7 +38,7 @@ public class Seans {
 
     @Override
     public String toString() {
-        return "CinemaSession{" +
+        return "Seans{" +
                 "movie=" + movie +
                 ", time=" + time +
                 ", seats=" + seats +
